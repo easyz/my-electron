@@ -1,0 +1,43 @@
+{
+	"name": "dxf-game-editor",
+	"version": "1.0.17",
+	"description": "test",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron .",
+		"dist": "electron-builder"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"electron": "^13.1.0",
+		"electron-builder": "^22.8.0"
+	},
+	"build": {
+		"appId": "com.fjgame.arpgeditor",
+		"productName": "dxf-game-editor",
+		"win": {
+			"icon": "icon.png",
+			"target": [
+				"nsis"
+			]
+		},
+		"extraResources":  {
+			"from": "./resources/assets/",
+			"to": "assets"
+		},
+		"nsis": {
+			"oneClick": false,
+			"perMachine": true,
+			"allowToChangeInstallationDirectory": true
+		}
+	},
+	"dependencies": {
+		"electron-json-storage": "^4.5.0",
+		"gm": "^1.23.1",
+		"images": "^3.2.3",
+		"json2lua": "^0.3.3",
+		"lodash": "^4.17.21",
+		"lua2json": "^1.1.2"
+	}
+}
