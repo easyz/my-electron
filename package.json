@@ -1,6 +1,6 @@
 {
 	"name": "dxf-game-editor",
-	"version": "1.0.17",
+	"version": "1.0.18",
 	"description": "test",
 	"main": "main.js",
 	"scripts": {
@@ -22,7 +22,7 @@
 				"nsis"
 			]
 		},
-		"extraResources":  {
+		"extraResources": {
 			"from": "./resources/assets/",
 			"to": "assets"
 		},
@@ -35,6 +35,7 @@
 	"dependencies": {
 		"electron-json-storage": "^4.5.0",
 		"gm": "^1.23.1",
+		"image-size": "^1.0.0",
 		"images": "^3.2.3",
 		"json2lua": "^0.3.3",
 		"lodash": "^4.17.21",

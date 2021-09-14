@@ -8,11 +8,12 @@ const lua2json = require('lua2json');
 const images = require("images");
 const storage = require('electron-json-storage');
 const gm = require('gm');
+const imageSize = require('image-size')
 let assetsPath = path.join(process.cwd(), '/resources/assets')
-const imageMagick = gm.subClass({ imageMagick: true, appPath: path.resolve(assetsPath, "imagemagick") + path.sep});
+const imageMagick = gm.subClass({ imageMagick: true, appPath: path.resolve(assetsPath, "imagemagick") + path.sep });
 
 const { AddMenu, AddConfigMenu } = require("./src/AppMenu.js")
-const { app, BrowserWindow, dialog, ipcMain, net } = require('electron')
+const { app, BrowserWindow, dialog, ipcMain, net, autoUpdater, remote } = require('electron')
 
 let mainWin = null;
 
@@ -20,7 +21,11 @@ function SendMsg(rspData, retData) {
 	mainWin.webContents.send('call-msg-ret', JSON.stringify({ type: rspData.type + "_" + rspData.index, data: retData }))
 }
 
-
+/**
+ * 发送消息
+ * @param {*} type 
+ * @param {*} retData 
+ */
 function SendMsgType(type, retData) {
 	mainWin.webContents.send('send-msg', JSON.stringify({ type: type, data: retData }))
 }
@@ -57,6 +62,7 @@ ipcMain.on('call-msg', function (event, args) { //news 是自定义的命令 ，
 				for (var i = 0; i < rspData.saveList.length; i++) {
 					var outData = rspData.saveList[i]
 					imageMagick(rspData.src).crop(outData.width, outData.height, outData.x, outData.y).quality(rspData.quality || 100).write(outData.savePath, callback)
+					SendMsgType("crop-img-ret", {index: i, len: rspData.saveList.length})
 				}
 
 				SendMsg(jsonData, true)
@@ -65,8 +71,10 @@ ipcMain.on('call-msg', function (event, args) { //news 是自定义的命令 ，
 		case "exec":
 			exec(rspData.command);
 		case "eval-js":
-			eval(rspData.command);
-			SendMsg(jsonData, true)
+			{
+				var ret = eval(rspData.command);
+				SendMsg(jsonData, JSON.stringify(ret))
+			}
 			break
 		case "call-json2lua": {
 			let ret = json2lua[rspData.funcName].apply(json2lua, rspData.args)
@@ -102,6 +110,7 @@ function createWindow() {
 			nodeIntegration: true,
 			webSecurity: false,
 			contextIsolation: false,
+			enableRemoteModule: true,
 			preload: path.join(app.getAppPath(), 'preload.js')
 		}
 
@@ -159,7 +168,62 @@ function createWindow() {
 		// console.log("req 2")
 		// win.loadURL("http://192.168.50.245:3230/editor/index.html")
 	}
+
+	// initContextMenuGeneral()
 }
+
+// const SystemCommands = {
+// 	/** 撤销 */
+// 	UNDO = 'undo',
+// 	/** 恢复 */
+// 	REDO = 'redo',
+// 	/** 复制 */
+// 	COPY = 'copy',
+// 	/** 剪切 */
+// 	CUT = 'cut',
+// 	/** 粘贴 */
+// 	PASTE = 'paste',
+// 	/** 全选 */
+// 	SELECT_ALL = 'selectAll',
+// 	/** 删除 */
+// 	DELETE = 'delete'
+// }
+
+// const contextMenuItemsGeneral = []
+// function addContextMenuItemGeneral(option) {
+// 	option.click = (item, win) => {
+// 		// this.runCommand(option.id as EuiCommands);
+// 	};
+// 	const item = new remote.MenuItem(option);
+// 	contextMenuItemsGeneral.push({
+// 		type: 'normal',
+// 		option: option,
+// 		item: item
+// 	});
+// }
+
+// function addContextMenuSeparator() {
+// 	const MenuItemConstructorOptions = { type: 'separator' };
+// 	const item = new remote.MenuItem(option);
+// 	contextMenuItemsGeneral.push({ type: 'separator', option: option, item: item });
+// }
+
+// function initContextMenuGeneral() {
+	
+// 	addContextMenuItemGeneral({ label: ( 'Copy'), id: SystemCommands.COPY, accelerator: '' });
+// 	addContextMenuItemGeneral({ label: ( 'Cut'), id: SystemCommands.CUT, accelerator: '' });
+// 	addContextMenuItemGeneral({ label: ( 'Paste'), id: SystemCommands.PASTE, accelerator: '' });
+// 	addContextMenuSeparator();
+// 	addContextMenuItemGeneral({ label: ( 'Group'), id: EuiCommands.GROUP, accelerator: '' });
+// 	addContextMenuItemGeneral({ label: ( 'Ungroup'), id: EuiCommands.UNGROUP, accelerator: '' });
+// 	addContextMenuSeparator();
+// 	addContextMenuItemGeneral({ label: ( 'Copy Property'), id: EuiCommands.COPY_PROPERTY });
+// 	addContextMenuItemGeneral({ label: ( 'Paste Pos'), id: EuiCommands.PASTE_POS });
+// 	addContextMenuItemGeneral({ label: ( 'Paste Size'), id: EuiCommands.PASTE_SIZE });
+// 	addContextMenuItemGeneral({ label: ( 'Paste Restrict'), id: EuiCommands.PASTE_RESTRICT });
+// 	addContextMenuSeparator();
+// 	addContextMenuItemGeneral({ label: ( 'Convert to Inline Skin'), id: EuiCommands.CONVERT_TO_INNER });
+// }
 
 function LoadConfig(cb) {
 	const request = net.request('http://192.168.50.245:3230/editor/all_editor_config.json');
@@ -177,10 +241,37 @@ function LoadConfig(cb) {
 	request.end();
 }
 
+function AutoUpdate() {
+	const server = 'https://your-deployment-url.com'
+	const url = `${server}/update/${process.platform}/${app.getVersion()}`
+
+	autoUpdater.setFeedURL({ url })
+
+	autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+		const dialogOpts = {
+			type: 'info',
+			buttons: ['Restart', 'Later'],
+			title: 'Application Update',
+			message: process.platform === 'win32' ? releaseNotes : releaseName,
+			detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+		}
+
+		dialog.showMessageBox(dialogOpts).then((returnValue) => {
+			if (returnValue.response === 0) autoUpdater.quitAndInstall()
+		})
+	})
+
+	setInterval(() => {
+		autoUpdater.checkForUpdates()
+	}, 60000)
+}
+
 app.whenReady().then(() => {
 
 	AddMenu()
 	createWindow()
+
+	// AutoUpdate()
 
 	console.log(process.env.npm_package_version)
 	console.log(process.versions)
