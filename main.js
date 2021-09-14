@@ -70,6 +70,7 @@ ipcMain.on('call-msg', function (event, args) { //news 是自定义的命令 ，
 			break
 		case "exec":
 			exec(rspData.command);
+			break
 		case "eval-js":
 			{
 				var ret = eval(rspData.command);
