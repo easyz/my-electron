@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"target": "es2017",
+		"watch": false,
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"jsx": "react",
+		"baseUrl": "./src",
+		"outDir": "./out",
+		"module": "commonjs",
+		// "strict": true,
+		"noImplicitAny": false,
+		"strictNullChecks": false,
+		"noImplicitThis": false,
+		"skipLibCheck": true,
+		"moduleResolution": "node",
+		"lib": [
+			"es5",
+			"dom",
+			"es6",
+			"es2015",
+			"es2015.proxy",
+			"ES2018.Promise",
+			"webworker",
+			"scripthost"
+		]
+	},
+	"exclude": [
+		"node_modules",
+		"out"
+	]
+}

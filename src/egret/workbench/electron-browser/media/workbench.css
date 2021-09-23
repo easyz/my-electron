@@ -1,0 +1,90 @@
+*, *::before, *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.eui-default .close-btn{	  
+	background: url(close_dark.svg) center center no-repeat;
+	width: 16px;
+	height:16px;
+	margin-top: 4px;
+	margin-left: 3px;
+	opacity: 0.8;
+}
+
+.eui-default .close-btn:hover{	  
+	opacity: 1; 
+}
+
+.eui-default .close-btn:active{
+	transform: scale(0.9);
+}
+
+input, button, select, optgroup, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+.eui-black .close-btn{	  
+	background: url(close_dark.svg) center center no-repeat;
+	width: 16px;
+	height:16px;
+	margin-left: 3px;
+	opacity: 0.8;
+}
+
+.eui-black .close-btn:hover{	  
+	opacity: 1; 
+}
+
+.eui-black .close-btn:active{
+	transform: scale(0.9);
+}
+
+.project-loading {
+	display: flex;
+}
+
+.project-loading .icon-loading {
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 12px;
+	background: url(loading.svg);
+	animation: loading-rotation 1s infinite linear;;
+}
+
+@keyframes loading-rotation {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(359deg);
+	}
+  }
+
+/* exml 编辑界面单独处理 */
+.eui-black .document-group .tabbar-item-title{
+	margin-left: 17px !important;
+}
+
+.eui-black .document-group .tabbar-item .tabbar-item-title.preview{
+	font-style: italic;
+}
+
+.monaco-tree .monaco-tree-rows > .monaco-tree-row.has-children.loading > .content:before {
+	display: none !important;
+}
+.monaco-tree .monaco-tree-rows.show-twisties > .monaco-tree-row > .content:before {
+	content: none !important;
+	display: none !important;
+}
+
