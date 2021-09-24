@@ -43,12 +43,13 @@ import { ClosableTitleRenderFactory, DocumentPanelSerialize } from './boxlayoutR
 import { remote, ipcRenderer } from 'electron';
 import { IWindowClientService } from 'egret/platform/windows/common/window';
 import './media/workbench.css';
-// import { IExplorerService } from '../parts/files/common/explorer';
+import { IExplorerService } from '../parts/files/common/explorer';
 import URI from 'egret/base/common/uri';
 import * as paths from 'egret/base/common/paths';
+import { ExplorerView } from '../parts/files/electron-browser/views/ExplorerView';
 // import { IOutputService } from '../parts/output/common/output';
 // import { OutPutService } from '../parts/output/common/outputService';
-// import { ExplorerService } from '../parts/files/common/explorerService';
+import { ExplorerService } from '../parts/files/common/explorerService';
 
 const WORKBENCH_GLOBAL_STORAGE = 'workbenchGlobalStorageKey';
 /**
@@ -298,7 +299,7 @@ export class Workbench implements IFocusablePart {
 		// 文件数据模型服务
 		this.serviceCollection.set(IFileModelService, new SyncDescriptor(FileModelService));
 		// 资源管理器服务
-		// this.serviceCollection.set(IExplorerService,this.instantiationService.createInstance(ExplorerService));
+		this.serviceCollection.set(IExplorerService,this.instantiationService.createInstance(ExplorerService));
 		// 编辑器部分
 		this.editorPart = this.instantiationService.createInstance(EditorPart);
 		this.editorService = this.instantiationService.createInstance(WorkbenchEditorService, this.editorPart);

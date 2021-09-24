@@ -49,24 +49,24 @@ export class NewExmlOperation implements IOperation {
 			if (!this.workspaceService.getWorkspace()) {
 				reject(localize('newExmlOperation.run.notProject', 'No items are currently open, and Exml skin cannot be created'));
 			}
-			if (innerWindowManager.tryActive(NewExmlPanel)) {
+			// if (innerWindowManager.tryActive(NewExmlPanel)) {
 				return Promise.resolve(void 0);
-			}
-			this.projectService.ensureLoaded().then(() => {
-				const euiExmlConfig: EUIExmlConfig = this.projectService.exmlConfig as EUIExmlConfig;
-				if (euiExmlConfig) {
-					euiExmlConfig.getHosts().then(hosts => {
-						const newExmlPanel: NewExmlPanel = this.instantiationService.createInstance(NewExmlPanel as any, hosts);
-						newExmlPanel.open('root', true);
-						newExmlPanel.onClosing(e => {
-							e.relativeWindow.dispose();
-							resolve(void 0);
-						});
-					});
-				} else {
-					reject(localize('newExmlOperation.run.notEuiProject', 'Currently is not an Egret EUI project, you can\'t create Exml skin'));
-				}
-			});
+			// }
+			// this.projectService.ensureLoaded().then(() => {
+			// 	const euiExmlConfig: EUIExmlConfig = this.projectService.exmlConfig as EUIExmlConfig;
+			// 	if (euiExmlConfig) {
+			// 		euiExmlConfig.getHosts().then(hosts => {
+			// 			const newExmlPanel: NewExmlPanel = this.instantiationService.createInstance(NewExmlPanel as any, hosts);
+			// 			newExmlPanel.open('root', true);
+			// 			newExmlPanel.onClosing(e => {
+			// 				e.relativeWindow.dispose();
+			// 				resolve(void 0);
+			// 			});
+			// 		});
+			// 	} else {
+			// 		reject(localize('newExmlOperation.run.notEuiProject', 'Currently is not an Egret EUI project, you can\'t create Exml skin'));
+			// 	}
+			// });
 		});
 
 	}
@@ -75,7 +75,7 @@ export class NewExmlOperation implements IOperation {
 	 */
 	public dispose(): void {
 		this.instantiationService = null;
-		this.projectService = null;
+		// this.projectService = null;
 		this.workspaceService = null;
 	}
 }
@@ -284,20 +284,20 @@ export class NewFolderOperation implements IOperation {
 			if (!this.workspaceService.getWorkspace()) {
 				reject(localize('newFolderOperation.run.notOpenProject', 'No project are currently open, can\'t create folder'));
 			}
-			if (innerWindowManager.tryActive(NewFolderPanel)) {
+			// if (innerWindowManager.tryActive(NewFolderPanel)) {
 				return Promise.resolve(void 0);
-			}
-			const defaultFolder = this.explorerService ? this.explorerService.getFirstSelectedFolder() : null;
-			if (defaultFolder) {
-				const newFolder = this.instantiationService.createInstance(NewFolderPanel);
-				newFolder.open(null, true);
-				newFolder.onClosing(e => {
-					e.relativeWindow.dispose();
-					resolve(void 0);
-				});
-			} else {
-				reject(localize('newFolderOperation.run.notExistParentFolder', 'There is no parent folder and cannot create a folder'));
-			}
+			// }
+			// const defaultFolder = this.explorerService ? this.explorerService.getFirstSelectedFolder() : null;
+			// if (defaultFolder) {
+			// 	const newFolder = this.instantiationService.createInstance(NewFolderPanel);
+			// 	newFolder.open(null, true);
+			// 	newFolder.onClosing(e => {
+			// 		e.relativeWindow.dispose();
+			// 		resolve(void 0);
+			// 	});
+			// } else {
+			// 	reject(localize('newFolderOperation.run.notExistParentFolder', 'There is no parent folder and cannot create a folder'));
+			// }
 		});
 
 
@@ -422,12 +422,12 @@ export class RenameFileOperation implements IOperation {
 			});
 		}
 		return confirmDirtyPromise.then(confirmed => {
-			if (confirmed) {
-				const renamePanel = this.instantiationService.createInstance(RenamePanel, fileStat);
-				renamePanel.open(null, true);
+			// if (confirmed) {
+			// 	const renamePanel = this.instantiationService.createInstance(RenamePanel, fileStat);
+			// 	renamePanel.open(null, true);
 				//弹出一个 重命名的窗口
 				return Promise.resolve(void 0);
-			}
+			// }
 		});
 	}
 	/**
@@ -456,7 +456,7 @@ export class SaveActiveOperation implements IOperation {
 		const currentEditor = this.editorService.getActiveEditor();
 		if (currentEditor && currentEditor.input) {
 			if ('syncModelData' in currentEditor) {
-				await (currentEditor as IMultiPageEditor).syncModelData();
+				// await (currentEditor as IMultiPageEditor).syncModelData();
 			}
 			return this.fileModelService.save(currentEditor.input.getResource());
 		}
@@ -490,7 +490,7 @@ export class SaveAllOperation implements IOperation {
 		for (let i = 0; i < editors.length; i++) {
 			const editor = editors[i];
 			if ('syncModelData' in editor) {
-				await (editor as IMultiPageEditor).syncModelData();
+				// await (editor as IMultiPageEditor).syncModelData();
 			}
 		}
 		return this.fileModelService.saveAll();

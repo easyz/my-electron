@@ -415,7 +415,7 @@ export class TreeView extends HeightMap {
 	private treeStyler: _.ITreeStyler;
 	private rowsContainer: HTMLElement;
 	private scrollableElement: ScrollableElement;
-	private msGesture: MSGesture | undefined;
+	private msGesture: any//MSGesture | undefined;
 	private lastPointerType: string = '';
 	private lastClickTimeStamp: number = 0;
 
@@ -633,7 +633,8 @@ export class TreeView extends HeightMap {
 
 	private setupMSGesture(): void {
 		if ((<any>window).MSGesture) {
-			this.msGesture = new MSGesture();
+			// this.msGesture = new MSGesture();
+			console.log("=========this.msGesture = new MSGesture();")
 			setTimeout(() => this.msGesture!.target = this.wrapper, 100); // TODO@joh, TODO@IETeam
 		}
 	}
@@ -1683,3 +1684,5 @@ export class TreeView extends HeightMap {
 		super.dispose();
 	}
 }
+type MSGestureEvent = any
+type MSPointerEvent = any

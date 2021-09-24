@@ -26,7 +26,7 @@ import { DuplicateFileOperation } from '../../commands/fileExplorerOperations';
 import { INotificationService } from 'egret/platform/notification/common/notifications';
 import { IOperationBrowserService } from 'egret/platform/operations/common/operations-browser';
 import { localize } from 'egret/base/localization/nls';
-import { IEgretProjectService } from 'egret/exts/exml-exts/project';
+// import { IEgretProjectService } from 'egret/exts/exml-exts/project';
 import { dispose } from 'egret/base/common/lifecycle';
 
 import './media/explorer.css';
@@ -34,6 +34,7 @@ import { IWorkbenchEditorService } from 'egret/workbench/services/editor/common/
 import { IFileModelService } from 'egret/workbench/services/editor/common/models';
 import { IDragAndDropData } from 'vs/base/browser/dnd';
 import { RootCommands } from 'egret/workbench/electron-browser/commands/rootCommands';
+import { IEgretProjectService } from 'egret/exts/exml-exts/project';
 
 /**
  * 文件数据源

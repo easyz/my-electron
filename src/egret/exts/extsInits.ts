@@ -1,6 +1,6 @@
 import { IInstantiationService } from 'egret/platform/instantiation/common/instantiation';
 // import { initEditorExts as initExmlEditorExts } from './exml-exts/editor';
-// import { initProject as initExmlProject } from './exml-exts/projectService';
+import { initProject as initExmlProject } from './exml-exts/projectService';
 // import { initExmlModel } from './exml-exts/models';
 
 
@@ -11,6 +11,6 @@ import { IInstantiationService } from 'egret/platform/instantiation/common/insta
 export function initExtensions(instantiationService:IInstantiationService):void{
 	/* -------- Exml --------  */
 	// initExmlEditorExts();
-	// initExmlProject(instantiationService, true);
+	initExmlProject(instantiationService, true);
 	// initExmlModel(instantiationService);
 }

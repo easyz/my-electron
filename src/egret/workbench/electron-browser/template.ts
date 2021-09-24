@@ -39,7 +39,8 @@ export var DefaultBoxLayoutTemplate = {
 			},
 			render: {
 				selectedIndex: 0,
-				panels: ['workbench.layer']
+				// panels: ['workbench.layer']
+				panels: []
 			}
 		}
 	},
@@ -102,7 +103,8 @@ export var DefaultBoxLayoutTemplate = {
 					},
 					render: {
 						selectedIndex: 0,
-						panels: ['workbench.output']
+						// panels: ['workbench.output']
+						panels: []
 					}
 				}
 			},
@@ -125,7 +127,8 @@ export var DefaultBoxLayoutTemplate = {
 					},
 					render: {
 						selectedIndex: 0,
-						panels: ['workbench.assets']
+						// panels: ['workbench.assets']
+						panels: []
 					}
 				},
 				secondElement: {
@@ -138,7 +141,8 @@ export var DefaultBoxLayoutTemplate = {
 					},
 					render: {
 						selectedIndex: 0,
-						panels: ['workbench.component']
+						// panels: ['workbench.component']
+						panels: []
 					}
 				}
 			}
@@ -162,7 +166,8 @@ export var DefaultBoxLayoutTemplate = {
 				},
 				render: {
 					selectedIndex: 0,
-					panels: ['workbench.align']
+					// panels: ['workbench.align']
+					panels: []
 				}
 			},
 			secondElement: {
@@ -175,7 +180,8 @@ export var DefaultBoxLayoutTemplate = {
 				},
 				render: {
 					selectedIndex: 0,
-					panels: ['workbench.property']
+					// panels: ['workbench.property']
+					panels: []
 				}
 			}
 		}

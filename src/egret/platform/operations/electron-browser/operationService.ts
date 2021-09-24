@@ -88,9 +88,10 @@ export class OperationBrowserService implements IOperationBrowserService {
 				});
 			});
 			//对全选做特殊处理
-			Mousetrap.bindGlobal('ctrl+a', (e, combo) => {
-				this.executeCommand(SystemCommands.SELECT_ALL);
-			});
+			// Mousetrap.bindGlobal('ctrl+a', (e, combo) => {
+			// 	this.executeCommand(SystemCommands.SELECT_ALL);
+			// });
+			console.log("============Mousetrap.bindGlobal")
 			// 修复 https://github.com/egret-labs/egret-ui-editor-opensource/issues/67
 			document.addEventListener('keydown', (e) => {
 				if (!(e.target instanceof HTMLInputElement) &&
@@ -151,7 +152,8 @@ export class OperationBrowserService implements IOperationBrowserService {
 		this.currentKeybingdingMap[command] = { key, type, global, name, description };
 
 		if (global) {
-			Mousetrap.bindGlobal(key.split(' '), (e, combo) => this.keyTigger_handler(e, combo), type);
+			// Mousetrap.bindGlobal(key.split(' '), (e, combo) => this.keyTigger_handler(e, combo), type);
+			console.log("Mousetrap.bindGlobal(key.split(' '), (e, combo) => this.keyTigger_handler(e, combo), type);")
 		} else {
 			Mousetrap.bind(key.split(' '), (e, combo) => this.keyTigger_handler(e, combo), type);
 		}
@@ -215,7 +217,7 @@ export class OperationBrowserService implements IOperationBrowserService {
 		}
 	}
 
-	private keyTigger_handler(e: ExtendedKeyboardEvent, combo: string): void {
+	private keyTigger_handler(e: any/*ExtendedKeyboardEvent*/, combo: string): void {
 		let command = '';
 		for (const curCommand in this.currentKeybingdingMap) {
 			if (

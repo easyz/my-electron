@@ -616,7 +616,8 @@ export class FileService implements IFileService {
 	public del(resource: URI, useTrash?: boolean): Promise<void> {
 		const absolutePath = this.toAbsolutePath(resource);
 		if (useTrash) {
-			const result = shell.moveItemToTrash(absolutePath);
+			console.log("=========shell.moveItemToTrash(absolutePath);")
+			const result =false//= shell.moveItemToTrash(absolutePath);
 			if (!result) {
 				return Promise.reject(new Error(localize('fileService.del.deleteError', 'Delete {0} error', resource.fsPath)));
 			} else {
